@@ -4,10 +4,10 @@ import { Producto } from '../../interfaces/producto.interfaces';
 
 @Component({
           selector: 'app-listado-productos',
-          standalone: true, // ¡Debe ser true!
-          imports: [CommonModule], // Asegúrate de esta importación
-          templateUrl: './listado-productos.html', // Verifica el nombre del archivo HTML
-          styleUrls: ['./listado-productos.css'] // Verifica el nombre del archivo CSS
+          standalone: true, 
+          imports: [CommonModule],
+          templateUrl: './listado-productos.html', 
+          styleUrls: ['./listado-productos.css'] 
         })
 export class ListadoProductos {
  @Input() productos: Producto[] = [];

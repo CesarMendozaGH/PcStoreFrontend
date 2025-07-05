@@ -1,18 +1,14 @@
-<!-- src/app/components/listado-productos/listado-productos.component.html -->
 <div class="product-grid">
-  <!-- Itera sobre la lista de productos recibida y muestra una tarjeta para cada uno -->
   <div class="product-card" *ngFor="let producto of productos">
-    <!-- Muestra la imagen del producto, con un placeholder si urlImagen es nulo o vacío -->
     <img [src]="producto.urlImagen || 'https://placehold.co/400x300/CCCCCC/000000?text=No+Image'" alt="{{ producto.nombre }}">
     <div class="product-info">
       <h3>{{ producto.nombre }}</h3>
       <p class="description">{{ producto.descripcion }}</p>
-      <p class="price">${{ producto.precio | number:'1.2-2' }}</p> <!-- Formato de moneda -->
-      <span class="category-tag">{{ producto.categoria }}</span> <!-- Muestra la categoría como texto -->
+      <p class="price">${{ producto.precio | number:'1.2-2' }}</p> 
+      <span class="category-tag">{{ producto.categoria }}</span> 
     </div>
   </div>
 
-  <!-- Mensaje si no se encuentran productos después de la búsqueda/filtro -->
   <div *ngIf="productos.length === 0" class="no-products-message">
     <p>No se encontraron productos que coincidan con la búsqueda o filtro.</p>
   </div>

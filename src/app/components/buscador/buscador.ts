@@ -16,62 +16,57 @@ export class BuscadorComponent implements OnInit {
   searchTerm: string = '';
   selectedCategory: string | null = null;
   availableCategories: string[] = []; // Para almacenar las categorías únicas extraídas de los productos
-  private searchInputSubject = new Subject<string>(); // Subject para el debounce de la búsqueda
+  private searchInputSubject = new Subject<string>();
 
-  @Output() searchChanged = new EventEmitter<string>(); // Emite el término de búsqueda
-  @Output() categorySelected = new EventEmitter<string | null>(); // Emite el nombre de la categoría seleccionada
+  // Emitters para comunicar cambios al componente padre
+  // Estos eventos se emitirán cuando el usuario cambie el término de búsqueda o seleccione
+  @Output() searchChanged = new EventEmitter<string>(); 
+  @Output() categorySelected = new EventEmitter<string | null>(); 
 
   constructor(private productosApi: ProductosApiService) { }
 
   ngOnInit(): void {
-    // Configura el debounce para el input de búsqueda
     this.searchInputSubject.pipe(
-      debounceTime(300), // Espera 300ms después de la última pulsación de tecla
+      debounceTime(300), 
       distinctUntilChanged() // Solo emite si el valor actual es diferente al último
     ).subscribe(term => {
-      this.searchChanged.emit(term); // Emite el término de búsqueda al componente padre
+      this.searchChanged.emit(term); 
     });
 
-    this.loadUniqueCategories(); // Carga las categorías únicas al iniciar el componente
+    this.loadUniqueCategories(); 
   }
 
-  /**
-   * Emite el término de búsqueda al componente padre después de un debounce.
-   * Se llama cada vez que el usuario escribe en el input.
-   */
+  //Se llama cada vez que el usuario escribe en el input.
+   
   onSearchInputChange(): void {
     this.searchInputSubject.next(this.searchTerm);
   }
 
   /**
    * Emite la categoría seleccionada al componente padre.
-   * Se llama cuando el usuario hace clic en un botón de categoría.
-   * @param category El nombre de la categoría seleccionada (o null para "Todas").
+   * @param category El nombre de la categoría seleccionada 
    */
   selectCategory(category: string | null): void {
     this.selectedCategory = category;
     this.categorySelected.emit(category); // Emite el nombre de la categoría
   }
 
-  /**
-   * Carga las categorías únicas de los productos existentes en la API.
-   * Esto es necesario porque no tenemos una tabla de categorías separada en la BD.
-   * Se hace una llamada a la API para obtener todos los productos y extraer las categorías.
-   */
+  
+    //Carga las categorías únicas de los productos existentes en la API.
+   
   loadUniqueCategories(): void {
     this.productosApi.getProductos().subscribe({
       next: (products) => {
         const categoriesSet = new Set<string>();
         products.forEach(p => {
           if (p.categoria) {
-            categoriesSet.add(p.categoria); // Añade la categoría al Set para asegurar unicidad
+            categoriesSet.add(p.categoria); 
           }
         });
-        this.availableCategories = Array.from(categoriesSet); // Convierte el Set a un array
+        this.availableCategories = Array.from(categoriesSet); // Convierte el Set a un arreglo
       },
       error: (err) => {
         console.error('Error al cargar categorías únicas:', err);
-        // Puedes manejar el error, por ejemplo, mostrando un mensaje al usuario
       }
     });
   }

@@ -1,1 +1,22 @@
-<p>buscador works!</p>
+<div class="buscador-container">
+  <div class="search-input-wrapper">
+    <input
+      type="text"
+      placeholder="Buscar productos por nombre o descripción..."
+      [(ngModel)]="searchTerm"
+      (input)="onSearchInputChange()">
+    <span class="search-icon">🔍</span> 
+  </div>
+
+  <div class="category-buttons">
+    <button
+      [class.active]="selectedCategory === null"
+      (click)="selectCategory(null)">Todas</button>
+    <button
+      *ngFor="let cat of availableCategories"
+      [class.active]="selectedCategory === cat"
+      (click)="selectCategory(cat)">
+      {{ cat }}
+    </button>
+  </div>
+</div>
