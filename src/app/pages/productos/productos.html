@@ -1,0 +1,15 @@
+<!-- src/app/pages/productos/productos.component.html -->
+<section class="productos-page-container">
+  <h2>Nuestra Galería de Productos</h2>
+
+  <!-- Componente Buscador: Emite eventos cuando la búsqueda o el filtro cambian -->
+  <!-- (searchChanged) y (categorySelected) son EventEmitter definidos en buscador.component.ts -->
+  <app-buscador
+    (searchChanged)="onSearchChanged($event)"
+    (categorySelected)="onCategorySelected($event)">
+  </app-buscador>
+
+  <!-- Componente ListadoProductos: Recibe la lista de productos a mostrar -->
+  <!-- [productos] es un @Input() definido en listado-productos.component.ts -->
+  <app-listado-productos [productos]="productos"></app-listado-productos>
+</section>
